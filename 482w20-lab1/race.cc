@@ -1,15 +1,19 @@
 #include <iostream>
 #include <thread>
+#include <mutex>
 
-const int NUM_THREADS = 2;
-const int NUM_ITER = 20;
+const int NUM_THREADS = 5;
+const int NUM_ITER = 1000000;
 
-int counter = 0;
+std::mutex   counter_mutex;
+int          counter = 0;
 
 void child()
 {
     for (int i=0; i < NUM_ITER; i++) {
+	counter_mutex.lock();
         counter++;
+	counter_mutex.unlock();
     }
 }
 
